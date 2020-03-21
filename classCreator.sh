@@ -4,9 +4,15 @@ echo "Class creator :";
 echo -n "- What's your class name ? : ";
 read classname;
 touch $classname.hpp;
+touch $classname.cpp
 echo "\t$classname.hpp created !";
+echo "\t$classname.cpp created !";
 fd="$classname.hpp";
+fd1="$classname.cpp";
+exec 4<>$fd1;
 exec 3<>$fd;
+echo "#include \""$classname".hpp\"\n\n$classname::$classname()\n{\n}\n\n" >&4;
+echo "\n\n$classname::~$classname()\n{\n}\n\n" >&4;
 echo -n "#ifndef " >&3;
 echo "$classname"_hpp | tr [a-z] [A-Z] >&3;
 echo -n "# define " >&3;
@@ -34,16 +40,8 @@ do
 done
 echo "\nclass $classname\n{\n\tpublic:\n" >&3;
 echo ""
-read -p "Would you like a constructor [y/n] ? " REPLY;
-if [ $REPLY = y ];
-then
-    echo "\t\t$classname(void);" >&3
-fi
-read -p "Would you like a destructor  [y/n] ? " REPLY;
-if [ $REPLY = y ];
-then
-    echo "\t\t~$classname(void);" >&3
-fi
+echo "\t\t$classname(void);" >&3
+echo "\t\t~$classname(void);" >&3
 echo "\n\tprivate:" >&3;
 echo "\nplease list your var [q to exit]?";
 while read -p "var : " TYPE VAR;
@@ -62,3 +60,4 @@ do
 done
 echo "};\n\n#endif" >&3;
 exec 3>&-
+exec 4>&-
