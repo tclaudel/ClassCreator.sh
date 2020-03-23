@@ -1,63 +1,97 @@
 #!/bin/bash
 
-echo "Class creator :";
-echo -n "- What's your class name ? : ";
+function create_setter {
+	printf "\nvoid\t\t\t%s::set%s(%s value)\n" $4 $3 $1 >&4
+	printf "\t\tvoid\t\t\t\tset%s(%s value);\n" $3 $1 >&3
+	printf "{\n\tm_%s = value;\n}\n" $2 >&4
+}
+
+function create_getter {
+	printf "\n%s\t\t\t%s::get%s(void)\n" "$1" $4 "$3" >&4
+	printf "\t\t%s\t\t\tget%s(void);\n" "$1" "$3" >&3
+	printf "{\n\treturn (m_%s);\n}\n" "$2" >&4
+}
+
+printf "Class creator :\n";
+printf "\tWhat's your class name ? : "
 read classname;
 rm $classname.hpp $classname.cpp;
 touch $classname.hpp $classname.cpp;
-echo "\t$classname.hpp created !";
-echo "\t$classname.cpp created !";
+printf "\n\t$classname.hpp created !\n";
+printf "\t$classname.cpp created !\n";
 fd="$classname.hpp";
 fd1="$classname.cpp";
 exec 4<>$fd1;
 exec 3<>$fd;
-echo "#include \""$classname".hpp\"\n\n$classname::$classname()\n{\n}\n" >&4;
-echo "$classname::~$classname()\n{\n}\n\n" >&4;
-echo -n "#ifndef " >&3;
-echo "$classname"_hpp | tr [a-z] [A-Z] >&3;
-echo -n "# define " >&3;
-echo "$classname"_hpp | tr [a-z] [A-Z] >&3;
-echo "" >&3;
-echo "\nplease list which SYSTEM HEADER you would like to include [q to exit]?";
+printf "#include \""$classname".hpp\"\n\n$classname::$classname()\n{\n}\n\n" >&4;
+printf "$classname::~$classname()\n{\n}\n" >&4;
+printf "#ifndef " >&3;
+printf "$classname"_hpp | tr [a-z] [A-Z] >&3;
+printf "\n# define " >&3;
+printf "$classname"_hpp | tr [a-z] [A-Z] >&3;
+printf "\n" >&3;
+printf "\n\nplease list which SYSTEM HEADER you would like to include [q to exit] ?\n";
 while read -p "header : " REPLY;
 do
     if [ -z "$REPLY" ] || [ $REPLY = q ]
     then
         break;
     else
-        echo "# include <$REPLY>" >&3
+        printf "# include <$REPLY>\n" >&3
     fi
 done
-echo "\nplease list which USER HEADER you would like to include [q to exit]?";
+printf "\nplease list which USER HEADER you would like to include [q to exit] ?\n";
 while read -p "header : " REPLY;
 do
     if [ -z "$REPLY" ] || [ $REPLY = q ]
     then
         break;
     else
-        echo "# include \"$REPLY\"" >&3
+        printf "# include \"$REPLY\"\n" >&3
     fi
 done
-echo "\nclass $classname\n{\n\tpublic:\n" >&3;
-echo ""
-echo "\t\t$classname(void);" >&3
-echo "\t\t~$classname(void);" >&3
-echo "\n\tprivate:" >&3;
-echo "\nplease list your var [q to exit]?";
-while read -p "var : " TYPE VAR;
+printf "\nclass $classname\n{\n\tpublic:\n" >&3;
+printf ""
+printf "\t\t$classname(void);\n" >&3
+printf "\t\t~$classname(void);\n" >&3
+printf "\nplease list your var [q to exit] add \"sg\" as third entry to set getter and setter?\n";
+declare -a TYPETAB
+declare -a TYPEVAR
+declare -a SGTAB
+while read -p "var : " TYPE VAR SG;
 do
-    if [ -z "$TYPE" ] || [ $TYPE = q ]
-    then
-        break;
-    else
+	if [ -z "$TYPE" ] || [ $TYPE = q ]
+	then
+		break
+	else
 		if [ $TYPE = "string" ]
 			then
-				echo "\t\tstd::string\t\tm_$VAR;" >&3;
-		else
-			echo "\t\t$TYPE\t\t\tm_$VAR;" >&3;
+				TYPE="std::string";
 		fi
 	fi
+	TYPETAB+=("$TYPE");
+	VARTAB+=("$VAR");
+	if [ -z $SG ]; then
+		SGTAB+=("a");
+	else
+		SGTAB+=("$SG");
+	fi
 done
-echo "};\n\n#endif" >&3;
+total=${#TYPETAB[*]};
+for (( i=0; i<=$(( $total -1 )); i++ ))
+do 
+	if [[ ${SGTAB[$i]} == *g* ]]; then
+		create_getter ${TYPETAB[$i]} ${VARTAB[$i]} ${VARTAB[$i]^} $classname
+	fi
+	if [[ ${SGTAB[$i]} == *s* ]]; then
+		create_setter ${TYPETAB[$i]} ${VARTAB[$i]} ${VARTAB[$i]^} $classname
+	fi
+done
+printf "\n\tprivate:\n" >&3;
+for (( i=0; i<=$(( $total -1 )); i++ ))
+do 
+	printf "\t\t%s\t\t\t%s;\n" "${TYPETAB[$i]}" m_"${VARTAB[$i]}" >&3
+done
+printf "};\n\n#endif" >&3;
 exec 3>&-
 exec 4>&-
