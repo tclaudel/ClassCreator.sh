@@ -23,8 +23,11 @@ fd="$classname.hpp";
 fd1="$classname.cpp";
 exec 4<>$fd1;
 exec 3<>$fd;
-printf "#include \""$classname".hpp\"\n\n$classname::$classname()\n{\n}\n\n" >&4;
-printf "$classname::~$classname()\n{\n}\n" >&4;
+printf "#include \""$classname".hpp\"\n\n" >&4;
+printf "$classname::$classname()\n{\n}\n\n" >&4;
+printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
+printf "$classname::~$classname()\n{\n}\n\n" >&4;
+printf "$classname\t\t\t&$classname::operator=(const $classname &affected)\n{\n}\n" >&4;
 printf "#ifndef " >&3;
 printf "$classname"_hpp | tr [a-z] [A-Z] >&3;
 printf "\n# define " >&3;
@@ -53,7 +56,9 @@ done
 printf "\nclass $classname\n{\n\tpublic:\n" >&3;
 printf ""
 printf "\t\t$classname(void);\n" >&3
+printf "\t\t%s(const %s &copy);\n" $classname $classname >&3
 printf "\t\t~$classname(void);\n" >&3
+printf "\t\t%s\t\t\t\t&operator=(const %s &affectation);\n" $classname $classname >&3
 printf "\nplease list your var [q to exit] add \"sg\" as third entry to set getter and setter?\n";
 declare -a TYPETAB
 declare -a TYPEVAR
