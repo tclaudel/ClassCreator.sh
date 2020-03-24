@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function create_setter {
-	printf "\nvoid\t\t\t%s::set%s(%s value)\n" $4 $3 $1 >&4
-	printf "\t\tvoid\t\t\t\tset%s(%s value);\n" $3 $1 >&3
+	printf "\nvoid\t\t\t%s::set%s(%s const value)\n" $4 $3 $1 >&4
+	printf "\t\tvoid\t\t\t\tset%s(%s const value);\n" $3 $1 >&3
 	printf "{\n\tm_%s = value;\n}\n" $2 >&4
 }
 
 function create_getter {
-	printf "\n%s\t\t\t%s::get%s(void)\n" "$1" $4 "$3" >&4
-	printf "\t\t%s\t\t\tget%s(void);\n" "$1" "$3" >&3
+	printf "\n%s\t\t\t%s::get%s(void) const\n" "$1" $4 "$3" >&4
+	printf "\t\t%s\t\t\tget%s(void) const;\n" "$1" "$3" >&3
 	printf "{\n\treturn (m_%s);\n}\n" "$2" >&4
 }
 
@@ -24,10 +24,10 @@ fd1="$classname.cpp";
 exec 4<>$fd1;
 exec 3<>$fd;
 printf "#include \""$classname".hpp\"\n\n" >&4;
-printf "$classname::$classname()\n{\n}\n\n" >&4;
+printf "$classname::$classname(void)\n{\n}\n\n" >&4;
 printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
-printf "$classname::~$classname()\n{\n}\n\n" >&4;
-printf "$classname\t\t\t&$classname::operator=(const $classname &affected)\n{\n}\n" >&4;
+printf "$classname::~$classname(void)\n{\n}\n\n" >&4;
+printf "$classname\t\t\t&$classname::operator=(const $classname &assigned)\n{\n" >&4;
 printf "#ifndef " >&3;
 printf "$classname"_hpp | tr [a-z] [A-Z] >&3;
 printf "\n# define " >&3;
@@ -58,7 +58,7 @@ printf ""
 printf "\t\t$classname(void);\n" >&3
 printf "\t\t%s(const %s &copy);\n" $classname $classname >&3
 printf "\t\t~$classname(void);\n" >&3
-printf "\t\t%s\t\t\t\t&operator=(const %s &affectation);\n" $classname $classname >&3
+printf "\t\t%s\t\t\t\t&operator=(const %s &assigned);\n" $classname $classname >&3
 printf "\nplease list your var [q to exit] add \"sg\" as third entry to set getter and setter?\n";
 declare -a TYPETAB
 declare -a TYPEVAR
@@ -83,6 +83,13 @@ do
 	fi
 done
 total=${#TYPETAB[*]};
+for (( i=0; i<=$(( $total -1 )); i++ ))
+do 
+	if [[ ${SGTAB[$i]} == *g* ]]; then
+		printf "\tthis->m_${VARTAB[$i]} = affected.get${VARTAB[$i]^}();\n" >&4;
+	fi
+done
+printf "\treturn (*this);\n}\n" >&4;
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	if [[ ${SGTAB[$i]} == *g* ]]; then
