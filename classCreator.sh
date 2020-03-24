@@ -86,7 +86,7 @@ total=${#TYPETAB[*]};
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	if [[ ${SGTAB[$i]} == *g* ]]; then
-		printf "\tthis->m_${VARTAB[$i]} = affected.get${VARTAB[$i]^}();\n" >&4;
+		printf "\tthis->m_${VARTAB[$i]} = assigned.get${VARTAB[$i]^}();\n" >&4;
 	fi
 done
 printf "\treturn (*this);\n}\n" >&4;
