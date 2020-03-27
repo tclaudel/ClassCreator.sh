@@ -83,13 +83,16 @@ do
 done
 total=${#TYPETAB[*]};
 printf "#include \""$classname".hpp\"\n\n" >&4;
-printf "$classname::$classname(void) :" >&4;
+printf "$classname::$classname(void) : " >&4;
 for (( i=0; i<=$(( $total -1 )); i++ ))
-do 
+do
+	if [ $i != 0 ] ; then
+		printf ", " >&4;
+	fi
 	if [ ${TYPETAB[$i]} == std::string ] ; then 
-		printf " m_%s(\"none\")," ${VARTAB[$i]} >&4;
+		printf "m_%s(\"none\")" ${VARTAB[$i]} >&4;
 	else
-		printf " m_%s(0)" ${VARTAB[$i]} >&4;
+		printf "m_%s(0)" ${VARTAB[$i]} >&4;
 	fi
 done
 printf "\n{\n}\n\n" >&4;
