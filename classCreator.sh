@@ -12,9 +12,13 @@ function create_getter {
 	printf "{\n\treturn (m_%s);\n}\n" "$2" >&4
 }
 
-printf "Class creator :\n";
-printf "\tWhat's your class name ? : "
-read classname;
+if [ -z "$1" ] ; then
+	printf "Class creator :\n";
+	printf "\tWhat's your class name ? : "
+	read classname;
+else
+	classname=$1;
+fi
 rm $classname.hpp $classname.cpp;
 touch $classname.hpp $classname.cpp;
 printf "\n\t$classname.hpp created !\n";
@@ -23,11 +27,6 @@ fd="$classname.hpp";
 fd1="$classname.cpp";
 exec 4<>$fd1;
 exec 3<>$fd;
-printf "#include \""$classname".hpp\"\n\n" >&4;
-printf "$classname::$classname(void)\n{\n}\n\n" >&4;
-printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
-printf "$classname::~$classname(void)\n{\n}\n\n" >&4;
-printf "$classname\t\t\t&$classname::operator=(const $classname &assigned)\n{\n" >&4;
 printf "#ifndef " >&3;
 printf "$classname"_hpp | tr [a-z] [A-Z] >&3;
 printf "\n# define " >&3;
@@ -56,7 +55,7 @@ done
 printf "\nclass $classname\n{\n\tpublic:\n" >&3;
 printf ""
 printf "\t\t$classname(void);\n" >&3
-printf "\t\t%s(const %s &copy);\n" $classname $classname >&3
+printf "\t\t%s(const %s &rhs);\n" $classname $classname >&3
 printf "\t\t~$classname(void);\n" >&3
 printf "\t\t%s\t\t\t\t&operator=(const %s &assigned);\n" $classname $classname >&3
 printf "\nplease list your var [q to exit] add \"sg\" as third entry to set getter and setter?\n";
@@ -83,10 +82,24 @@ do
 	fi
 done
 total=${#TYPETAB[*]};
+printf "#include \""$classname".hpp\"\n\n" >&4;
+printf "$classname::$classname(void) :" >&4;
+for (( i=0; i<=$(( $total -1 )); i++ ))
+do 
+	if [ ${TYPETAB[$i]} == std::string ] ; then 
+		printf " m_%s(\"none\")," ${VARTAB[$i]} >&4;
+	else
+		printf " m_%s(0)" ${VARTAB[$i]} >&4;
+	fi
+done
+printf "\n{\n}\n\n" >&4;
+printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
+printf "$classname::~$classname(void)\n{\n}\n\n" >&4;
+printf "$classname\t\t\t&$classname::operator=(const $classname &rhs)\n{\n" >&4;
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	if [[ ${SGTAB[$i]} == *g* ]]; then
-		printf "\tthis->m_${VARTAB[$i]} = assigned.get${VARTAB[$i]^}();\n" >&4;
+		printf "\tthis->m_${VARTAB[$i]} = rhs.m_${VARTAB[$i]};\n" >&4;
 	fi
 done
 printf "\treturn (*this);\n}\n" >&4;
