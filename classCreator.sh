@@ -1,14 +1,29 @@
 #!/bin/bash
 
 function create_setter {
-	printf "\nvoid\t\t\t%s::set%s(%s const value)\n" $4 $3 $1 >&4
+	printf "\nvoid\t\t\t\t%s::set%s(%s const value)\n" $4 $3 $1 >&4
 	printf "\t\tvoid\t\t\t\tset%s(%s const value);\n" $3 $1 >&3
 	printf "{\n\tm_%s = value;\n}\n" $2 >&4
 }
 
+function print_tabs {
+	lentype=${#1}
+	if [ $lentype -lt 4 ]; then
+		printf "\t\t\t\t\t" $2
+	elif [ $lentype -lt 8 ]; then
+		printf "\t\t\t\t" $2
+	else
+		printf "\t\t\t" $2
+	fi
+}
+
 function create_getter {
-	printf "\n%s\t\t\t%s::get%s(void) const\n" "$1" $4 "$3" >&4
-	printf "\t\t%s\t\t\tget%s(void) const;\n" "$1" "$3" >&3
+	printf "\t\t%s" "$1" >&3
+	printf "\n%s" "$1" >&4
+	print_tabs $1 >&3
+	print_tabs $1 >&4
+	printf "%s::get%s(void) const\n" $4 "$3" >&4
+	printf "get%s(void) const;\n"  "$3" >&3
 	printf "{\n\treturn (m_%s);\n}\n" "$2" >&4
 }
 
@@ -57,7 +72,9 @@ printf ""
 printf "\t\t$classname(void);\n" >&3
 printf "\t\t%s(const %s &rhs);\n" $classname $classname >&3
 printf "\t\t~$classname(void);\n" >&3
-printf "\t\t%s\t\t\t\t&operator=(const %s &assigned);\n" $classname $classname >&3
+printf "\t\t%s" $classname >&3
+print_tabs $classname >&3
+printf "&operator=(const %s &rhs);\n"  $classname >&3
 printf "\nplease list your var [q to exit] add \"sg\" as third entry to set getter and setter?\n";
 declare -a TYPETAB
 declare -a TYPEVAR
@@ -98,7 +115,10 @@ done
 printf "\n{\n}\n\n" >&4;
 printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
 printf "$classname::~$classname(void)\n{\n}\n\n" >&4;
-printf "$classname\t\t\t&$classname::operator=(const $classname &rhs)\n{\n" >&4;
+printf "$classname" >&4;
+lentype=${#classname}
+print_tabs $classname >&4
+printf "&$classname::operator=(const $classname &rhs)\n{\n" >&4;
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	if [[ ${SGTAB[$i]} == *g* ]]; then
@@ -106,6 +126,8 @@ do
 	fi
 done
 printf "\treturn (*this);\n}\n" >&4;
+printf "\n\t/********************************\n\n\t\t\tGETTER // SETTER\n\n\t********************************/\n" >&4;
+printf "\n//\t\tGETTER // SETTER\n\n" >&3
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	if [[ ${SGTAB[$i]} == *g* ]]; then
@@ -118,7 +140,16 @@ done
 printf "\n\tprivate:\n" >&3;
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
-	printf "\t\t%s\t\t\t%s;\n" "${TYPETAB[$i]}" m_"${VARTAB[$i]}" >&3
+	printf "\t\t%s" "${TYPETAB[$i]}" >&3
+	lentype=${#TYPETAB[$i]}
+	if [ $lentype -lt 4 ]; then
+		printf "\t\t\t\t\t" >&3
+	elif [ $lentype -lt 8 ]; then
+		printf "\t\t\t\t" >&3
+	else
+		printf "\t\t\t" >&3
+	fi
+	printf "%s;\n" m_"${VARTAB[$i]}" >&3
 done
 printf "};\n\n#endif" >&3;
 exec 3>&-
