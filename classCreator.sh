@@ -67,7 +67,12 @@ do
         printf "# include \"$REPLY\"\n" >&3
     fi
 done
-printf "\nclass $classname\n{\n\tpublic:\n" >&3;
+
+printf "\nclass $classname" >&3
+if [ ! -z $2 ]; then
+	printf " : public %s" $2 >&3
+fi
+printf "\n{\n\tpublic:\n" >&3;
 printf ""
 printf "\t\t$classname(void);\n" >&3
 printf "\t\t%s(const %s &rhs);\n" $classname $classname >&3
@@ -113,7 +118,7 @@ do
 	fi
 done
 printf "\n{\n}\n\n" >&4;
-printf "$classname::$classname(const $classname &copy)\n{\n\t*this = copy;\n}\n\n" >&4;
+printf "$classname::$classname(const $classname &rhs)\n{\n\t*this = rhs;\n}\n\n" >&4;
 printf "$classname::~$classname(void)\n{\n}\n\n" >&4;
 printf "$classname" >&4;
 lentype=${#classname}
@@ -121,9 +126,7 @@ print_tabs $classname >&4
 printf "&$classname::operator=(const $classname &rhs)\n{\n" >&4;
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
-	if [[ ${SGTAB[$i]} == *g* ]]; then
-		printf "\tthis->m_${VARTAB[$i]} = rhs.m_${VARTAB[$i]};\n" >&4;
-	fi
+	printf "\tthis->m_${VARTAB[$i]} = rhs.m_${VARTAB[$i]};\n" >&4;
 done
 printf "\treturn (*this);\n}\n" >&4;
 printf "\n\t/********************************\n\n\t\t\tGETTER // SETTER\n\n\t********************************/\n" >&4;
