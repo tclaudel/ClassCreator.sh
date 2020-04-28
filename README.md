@@ -1,8 +1,6 @@
 # ClassCreator.sh
 
-- A simple script to create Class in cpp easier !
-
-- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien formA simple script to create Class in cpp easier !
+- A simple script to create *Class* in cpp easier !
 
 - This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien form
 
@@ -51,4 +49,6 @@ if your want to have setter and 'g' to have getters, or 'sg' for both.
 <p align="center">
   <img src="./img/variables.png" alt="Size Limit CLI" width="500">
 </p>
+
+## Now enjoy it !
 
