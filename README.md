@@ -53,4 +53,4 @@ if your want to have setter and 'g' to have getters, or 'sg' for both.
 ## Now enjoy it !
 
 ###### Please leave a star if you find it usefull ! Thanks for using it
-[42 Intra profile](https://profile.intra.42.fr/users/tclaudel "Intra profile")
+[link to my 42 Intra profile](https://profile.intra.42.fr/users/tclaudel "Intra profile")
