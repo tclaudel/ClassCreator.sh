@@ -26,7 +26,12 @@ If your class is a child from another :
 ```bash
 ClassCreator <child classname> <mother classname>
 ```
-[![lunchscreenshot](./img/lunch.png "lunchscreenshot")](./img/lunch.png "lunchscreenshot")
+
+<p align="center">
+  <img src="./img/lunch.png" alt="Size Limit CLI" width="738">
+</p>
 Now insert the libraries to include *ex : string iostream*
-![lunchscreenshot](./img/systemheader.png "lunchscreenshot")](./img/systemheader.png "lunchscreenshot")
+<p align="center">
+  <img src="./img/systemheader.png" alt="Size Limit CLI" width="738">
+</p>
 And your own libraries *ex : mother.hpp*
