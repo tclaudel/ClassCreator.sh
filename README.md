@@ -1,8 +1,10 @@
 # ClassCreator.sh
 
-**A simple script to create Class in cpp easier !
-This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien formA simple script to create Class in cpp easier !
-This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien form******
+- A simple script to create Class in cpp easier !
+
+- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien formA simple script to create Class in cpp easier !
+
+- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien form
 
 ## How to Install it ?
 
@@ -38,6 +40,7 @@ And your own libraries *ex : mother.hpp*
 <p align="center">
   <img src="./img/ownheader.png" alt="Size Limit CLI" width="500">
 </p>
+Now set the private vars in your class, after the type and the name, write 's' if your want to have setter and 'g' to have getters, or 'sg' for both
 <p align="center">
   <img src="./img/variables.png" alt="Size Limit CLI" width="500">
 </p>
