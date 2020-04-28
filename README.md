@@ -2,7 +2,7 @@
 
 - A simple script to create *Class* in cpp easier !
 
-- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien form
+- This script will ask you for a *ClassName* and create both *ClassName.cpp* and *ClassName.hpp* formated as *Coplien form*
 
 ## How to Install it ?
 
@@ -51,4 +51,6 @@ if your want to have setter and 'g' to have getters, or 'sg' for both.
 </p>
 
 ## Now enjoy it !
+
+Please leave a star if you find it usefull ! Thanks for using it
 
