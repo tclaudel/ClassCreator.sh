@@ -39,18 +39,14 @@ ClassCreator <child classname> <mother classname>
   <img src="./img/systemheader.png" alt="Size Limit CLI" width="500">
 </p>
 
-```
-And your own libraries *ex : mother.hpp*
-```
+> And your own libraries *ex : mother.hpp*
 
 <p align="center">
   <img src="./img/ownheader.png" alt="Size Limit CLI" width="500">
 </p>
 
-```
-Now set the private vars in your class, after the type and the name, write 's'
+> Now set the private vars in your class, after the type and the name, write 's'
 if your want to have setter and 'g' to have getters, or 'sg' for both.
-```
 
 <p align="center">
   <img src="./img/variables.png" alt="Size Limit CLI" width="500">
