@@ -1,8 +1,10 @@
 # ClassCreator.sh
 
-- A simple script to create *Class* in cpp easier !
+- A simple script to create Class in cpp easier !
 
-- This script will ask you for a *ClassName* and create both *ClassName.cpp* and *ClassName.hpp* formated as *Coplien form*
+- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien formA simple script to create Class in cpp easier !
+
+- This script will ask you for a ClassName and create both ClassName.cpp and ClassName.hpp formated as Coplien form
 
 ## How to Install it ?
 
@@ -52,5 +54,5 @@ if your want to have setter and 'g' to have getters, or 'sg' for both.
 
 ## Now enjoy it !
 
-Please leave a star if you find it usefull ! Thanks for using it
-
+###### Please leave a star if you find it usefull ! Thanks for using it
+[42 Intra profile](https://profile.intra.42.fr/users/tclaudel "Intra profile")
