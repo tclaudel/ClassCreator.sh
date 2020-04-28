@@ -4,7 +4,7 @@
 
 ## How to use it ?
 
-	```bash
+	```
 	cd ~
 	git clone https://github.com/tclaudel/ClassCreator.sh ClassCreator
 	alias ClassCreator=~/ClassCreator/ClassCreator.sh
