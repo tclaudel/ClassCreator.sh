@@ -4,6 +4,7 @@
 
 ## How to use it ?
 
+	Commands to install and alias it
 	```
 	cd ~
 	git clone https://github.com/tclaudel/ClassCreator.sh ClassCreator
