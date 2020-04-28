@@ -34,7 +34,7 @@ if [ -z "$1" ] ; then
 else
 	classname=$1;
 fi
-rm $classname.hpp $classname.cpp;
+rm -f $classname.hpp $classname.cpp;
 touch $classname.hpp $classname.cpp;
 printf "\n\t$classname.hpp created !\n";
 printf "\t$classname.cpp created !\n";
@@ -105,7 +105,10 @@ do
 done
 total=${#TYPETAB[*]};
 printf "#include \""$classname".hpp\"\n\n" >&4;
-printf "$classname::$classname(void) : " >&4;
+printf "$classname::$classname(void)" >&4;
+if [ ! -z "$TYPETAB" ] ; then
+	printf " : " >&4;
+fi
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do
 	if [ $i != 0 ] ; then
@@ -124,6 +127,9 @@ printf "$classname" >&4;
 lentype=${#classname}
 print_tabs $classname >&4
 printf "&$classname::operator=(const $classname &rhs)\n{\n" >&4;
+if [ $total -eq 0 ] ; then
+	printf "\t(void)rhs;\n" >&4
+fi
 for (( i=0; i<=$(( $total -1 )); i++ ))
 do 
 	printf "\tthis->m_${VARTAB[$i]} = rhs.m_${VARTAB[$i]};\n" >&4;
