@@ -28,10 +28,10 @@ ClassCreator <child classname> <mother classname>
 ```
 
 <p align="center">
-  <img src="./img/lunch.png" alt="Size Limit CLI" width="738">
+  <img src="./img/lunch.png" alt="Size Limit CLI" width="500">
 </p>
 Now insert the libraries to include *ex : string iostream*
 <p align="center">
-  <img src="./img/systemheader.png" alt="Size Limit CLI" width="738">
+  <img src="./img/systemheader.png" alt="Size Limit CLI" width="500">
 </p>
 And your own libraries *ex : mother.hpp*
