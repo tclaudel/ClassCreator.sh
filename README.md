@@ -35,3 +35,9 @@ Now insert the libraries to include *ex : string iostream*
   <img src="./img/systemheader.png" alt="Size Limit CLI" width="500">
 </p>
 And your own libraries *ex : mother.hpp*
+<p align="center">
+  <img src="./img/ownheader.png" alt="Size Limit CLI" width="500">
+</p>
+<p align="center">
+  <img src="./img/variables.png" alt="Size Limit CLI" width="500">
+</p>
