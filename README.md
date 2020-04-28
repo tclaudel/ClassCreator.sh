@@ -26,7 +26,7 @@ If your class is a child from another :
 ```bash
 ClassCreator <child classname> <mother classname>
 ```
-![lunchscreenshot](./img/Screenshot from 2020-04-28 10-48-26.png)
+[![lunchscreenshot](./img/Screenshot from 2020-04-28 10-48-26.png "lunchscreenshot")](./img/Screenshot from 2020-04-28 10-48-26.png "lunchscreenshot")
 Now insert the libraries to include *ex : string iostream*
-![lunchscreenshot](./img/Screenshot from 2020-04-28 11-08-21.png "lunchscreenshot")
+![lunchscreenshot](./img/Screenshot from 2020-04-28 10-48-26.png "lunchscreenshot")](./img/Screenshot from 2020-04-28 10-48-26.png "lunchscreenshot")
 And your own libraries *ex : mother.hpp*
