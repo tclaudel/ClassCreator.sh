@@ -10,7 +10,7 @@ Commands to install and alias it
 ```bash
 cd ~
 git clone https://github.com/tclaudel/ClassCreator.sh ClassCreator
-alias ClassCreator=~/ClassCreator/./ClassCreator.sh
+alias ClassCreator=~/ClassCreator/./classCreator.sh
 cd -
 ```
 > The best thing to do is to set your aliases in your ~/.zshrc or ~/.bashrc
