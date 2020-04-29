@@ -22,7 +22,8 @@ ClassCreator <insert your classname>
 >If you do not insert class name, the programm will ask you.
 > if you havent't alias it please ./ClassCreator.sh. Do not use sh to lunch it !
 
-If your class is a child from another :
+>If your class is a child from another :
+
 ```bash
 ClassCreator <child classname> <mother classname>
 ```
